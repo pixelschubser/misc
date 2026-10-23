@@ -27,7 +27,7 @@
 ### A. Prüfen (5 Min.)
 
 1. **[N]** Windows-Version: `winver` → Windows 11 oder Windows 10 22H2.
-2. **[N]** Virtualisierung: `systeminfo` → „Virtualisierung in Firmware aktiviert: Ja“ oder „Hypervisor erkannt“. Sonst IT-Ticket (siehe Ende).
+2. **[N]** Virtualisierung: `systeminfo` → „Virtualisierung in Firmware aktiviert: Ja“ („Hypervisor erkannt“ allein reicht nicht, das meldet jede VMware-VM). Sonst IT-Ticket (siehe Ende).
 3. **[N]** Ordner anlegen: `mkdir C:\MYSOFT\WSL\Ubuntu`. Klappt das nicht → Schritt 5 dieser Kurzanleitung.
 
 ### B. Windows vorbereiten (Admin-Konto)
@@ -137,7 +137,7 @@ Get-CimInstance Win32_Processor | Select-Object Name, VirtualizationFirmwareEnab
 
 So liest du das Ergebnis:
 
-- „Es wurde ein Hypervisor erkannt“ / „A hypervisor has been detected“: Ein Hypervisor läuft bereits (z. B. wegen VBS/Credential Guard). Gutes Zeichen, aber noch kein Beweis.
+- „Es wurde ein Hypervisor erkannt“ / „A hypervisor has been detected“: Erscheint in jeder VMware-VM, weil VMware selbst ein Hypervisor ist. Kein Beleg dafür, dass WSL2 laufen kann.
 - Vier Zeilen „Hyper-V-Anforderungen“ mit „Ja“ und „Virtualisierung in Firmware aktiviert: Ja“: Die VM sieht die Virtualisierungsfunktionen der CPU. Sehr gut.
 - „Virtualisierung in Firmware aktiviert: Nein“: VMware reicht VT-x/AMD-V nicht an die VM durch. WSL2 wird mit Fehler `0x80370102` scheitern. Dann brauchst du die IT (siehe letzter Abschnitt) – auf VMware-Seite muss „Expose hardware assisted virtualization to the guest OS“ (`vhv.enable = TRUE`) für die VM bzw. das Golden Image gesetzt werden.
 
